@@ -1,7 +1,7 @@
 package com.xekombik.shoppinglist.domain
 
-class EditShopItemUseCase {
+class EditShopItemUseCase(private val shopListRepository: ShopListRepository) {
     fun editObject(shopItem: ShopItem){
-        TODO()
+        shopListRepository.editObject(shopItem)
     }
 }

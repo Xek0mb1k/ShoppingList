@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.xekombik.shoppinglist.R
 import com.xekombik.shoppinglist.domain.ShopItem
@@ -18,6 +18,10 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
             field = value
             notifyDataSetChanged()
         }
+
+    var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
+    var onShopItemClickListener: ((ShopItem) -> Unit)? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
         val layout = when (viewType){
@@ -37,8 +41,13 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         holder.tvName.text = shopItem.name
         holder.tvCount.text = shopItem.count.toString()
         holder.itemView.setOnLongClickListener {
+            onShopItemLongClickListener?.invoke(shopItem)
             true
         }
+        holder.itemView.setOnClickListener{
+            onShopItemClickListener?.invoke(shopItem)
+        }
+
 
     }
     override fun getItemViewType(position: Int): Int {
@@ -57,6 +66,7 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
         val tvName: TextView = view.findViewById(R.id.tv_name)
         val tvCount: TextView = view.findViewById(R.id.tv_count)
     }
+
 
     companion object{
         const val VIEW_TYPE_ENABLED = 100

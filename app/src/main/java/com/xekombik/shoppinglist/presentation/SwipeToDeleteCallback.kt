@@ -18,7 +18,6 @@ abstract class SwipeToDeleteCallback : ItemTouchHelper.Callback() {
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-
         return false
     }
 

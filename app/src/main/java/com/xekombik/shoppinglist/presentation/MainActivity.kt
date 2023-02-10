@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 deleteShopItem(shopListAdapter.shopList[position])
-                rvShopList.adapter?.notifyItemRemoved(position)
 
             }
         }

@@ -103,7 +103,7 @@ class ShopItemActivity : AppCompatActivity() {
 
     private fun launchAddMode() {
         buttonSave.setOnClickListener {
-            viewModel.editShopItem(etName.text?.toString(), etCount.text?.toString())
+            viewModel.addShopItem(etName.text?.toString(), etCount.text?.toString())
         }
     }
 

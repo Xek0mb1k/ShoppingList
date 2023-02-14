@@ -7,25 +7,25 @@ import androidx.recyclerview.widget.ListAdapter
 import com.xekombik.shoppinglist.R
 import com.xekombik.shoppinglist.domain.ShopItem
 
-class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallBack()) {
+class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewModel>(ShopItemDiffCallBack()) {
 
 
     var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
     var onShopItemClickListener: ((ShopItem) -> Unit)? = null
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewModel {
         val layout = when (viewType) {
             VIEW_TYPE_ENABLED -> R.layout.item_shop_enabled
             VIEW_TYPE_DISABLED -> R.layout.item_shop_disabled
             else -> throw java.lang.RuntimeException("Unknown view type: $viewType")
         }
         val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-        return ShopItemViewHolder(view)
+        return ShopItemViewModel(view)
     }
 
 
-    override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ShopItemViewModel, position: Int) {
         val shopItem = getItem(position)
 
         holder.tvName.text = shopItem.name

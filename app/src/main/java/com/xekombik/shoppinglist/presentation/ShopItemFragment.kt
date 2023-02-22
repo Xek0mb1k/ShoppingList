@@ -16,11 +16,13 @@ import com.google.android.material.textfield.TextInputLayout
 import com.xekombik.shoppinglist.R
 import com.xekombik.shoppinglist.domain.ShopItem
 import com.xekombik.shoppinglist.domain.ShopItemViewHolder
+import kotlinx.coroutines.handleCoroutineException
 
 @Suppress("DEPRECATION")
 class ShopItemFragment : Fragment() {
 
     private lateinit var viewModel: ShopItemViewHolder
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
     private lateinit var tilName: TextInputLayout
     private lateinit var tilCount: TextInputLayout
@@ -30,6 +32,15 @@ class ShopItemFragment : Fragment() {
 
     private var screenMode: String = MODE_UNKNOWN
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnEditingFinishedListener){
+            onEditingFinishedListener = context
+        }else{
+            throw RuntimeException("Activity must implement OnEditingFinishedListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +88,7 @@ class ShopItemFragment : Fragment() {
 
         }
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressed() // Null safety method
+            onEditingFinishedListener.onEditingFinished() // Null safety method
 
         }
     }
@@ -154,6 +165,10 @@ class ShopItemFragment : Fragment() {
         etName = view.findViewById(R.id.et_name)
         etCount = view.findViewById(R.id.et_count)
         buttonSave = view.findViewById(R.id.saveButton)
+    }
+
+    interface OnEditingFinishedListener{
+        fun onEditingFinished()
     }
 
     companion object {

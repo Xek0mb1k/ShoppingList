@@ -1,7 +1,9 @@
 package com.xekombik.shoppinglist.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -14,11 +16,13 @@ import com.xekombik.shoppinglist.R
 import com.xekombik.shoppinglist.data.ShopListRepositoryImpl.deleteShopItem
 import com.xekombik.shoppinglist.domain.ShopItem
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
     private var shopItemContainer: FragmentContainerView? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +47,12 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+
+    override fun onEditingFinished(){
+        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
     }
 
     private fun isOnePaneMode(): Boolean{
